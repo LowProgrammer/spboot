@@ -1,0 +1,55 @@
+buildscript {
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+	repositories {
+		mavenCentral()
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+//apply plugin: 'war'
+
+group = 'com.apexsoft'
+sourceCompatibility = 1.8
+version = '1.0.0'
+
+configurations {
+	providedRuntime
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+springBoot {
+	buildInfo()
+}
+
+dependencies {
+	compile library.aas_spring_boot_starter
+	compile project(':ams-protocol')
+
+	runtime('org.springframework.boot:spring-boot-devtools')
+	compile('mysql:mysql-connector-java:6.0.6')
+	compile('com.apexsoft:ojdbc14:10.2.0.4.0')
+
+	//impala support
+	compile('com.apexsoft:hive_metastore:0.9.0')
+	compile('com.apexsoft:libfb303:0.9.0')
+	compile('com.apexsoft:libthrift:0.9.0')
+	compile('com.apexsoft:ql:0.9.0')
+	compile('com.apexsoft:ImpalaJDBC41:0.9.0')
+	compile('com.apexsoft:TCLIServiceClient:0.9.0')
+	compile('org.apache.httpcomponents:httpcore:4.4.9')
+	compile('org.apache.httpcomponents:httpclient:4.5.5')
+
+	//如该模块需要支持jsp等资源，需引用
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+
+	//指定jna版本为4.5.1，避免Mac、Windows系统取不到内存、硬盘信息
+	compile('net.java.dev.jna:jna:4.5.1')
+	compile('net.java.dev.jna:jna-platform:4.5.1')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('junit:junit:4.12')
+
+}

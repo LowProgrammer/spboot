@@ -1,0 +1,60 @@
+buildscript {
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+group 'com.apexsoft'
+version '1.0.0'
+
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
+sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                    'src/main/java',
+                    'src/main/proto',
+                    'generatedSrc/main/java',
+                    'generatedSrc/main/grpc',
+            ]
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.6.1"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks.generatedFilesBaseDir = "$projectDir/generatedSrc"
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
+
+dependencies {
+    compile library.ams_common
+    compile "com.google.protobuf:protobuf-java:3.6.1"
+    compile "io.grpc:grpc-netty:1.12.1"
+    compile "io.grpc:grpc-protobuf:1.12.1"
+    compile("io.grpc:grpc-stub:${grpcVersion}")
+}

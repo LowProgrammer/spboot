@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.apexsoft.webapp.modules.oracle.mapper.Demo2Mapper">
+
+    <!--<resultMap id="Demo2Map" type="com.apexsoft.webappss.modules.mysql.model.Demo2">-->
+    <!--</resultMap>-->
+
+    <select id="getXtdm" resultType="com.apexsoft.webapp.modules.oracle.model.Demo2" parameterType="string">
+      SELECT a.* FROM txtdm a WHERE a.fldm = #{fldm}
+    </select>
+
+
+
+    <resultMap id="cursorMap" type="com.apexsoft.webapp.modules.oracle.model.CursorDemo">
+    </resultMap>
+    <parameterMap type="java.util.Map" id="procTestFzmxMap">
+        <parameter property="o_code" mode="OUT" jdbcType="INTEGER"/>
+        <parameter property="o_note" mode="OUT" jdbcType="VARCHAR"/>
+        <parameter property="o_result" mode="OUT" jdbcType="CURSOR" resultMap="cursorMap"/>
+        <parameter property="i_fzid" mode="IN" jdbcType="INTEGER" />
+    </parameterMap>
+    <select id="procTestFzmx" statementType="CALLABLE" parameterMap="procTestFzmxMap">
+        CALL PCX_TEST_FZMX(?,?,?,?)
+    </select>
+
+</mapper>

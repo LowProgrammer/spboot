@@ -1,0 +1,22 @@
+ams:
+  authority: livebos-server
+  config:
+    enabled: true
+  ca:
+    certFile: classpath:cert/ca.pem
+  client:
+    id: demo_all_1
+    certFile: classpath:cert/client.pem
+    keyFile: classpath:cert/client.pkcs8.pem
+  server:
+    #namespace: myns
+    certFile: classpath:cert/server.pem
+    keyFile: classpath:cert/server.pkcs8.pem
+  registry:
+    protocol: zk
+    address: 192.168.3.131:2181,192.168.3.132:2181,192.168.3.133:2181
+    #username: amscli
+    #password: apexsoft
+  net:
+    ignoredInterfaces: docker0,veth.*
+    #preferredNetworks: 192.168.80

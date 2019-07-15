@@ -1,0 +1,122 @@
+[【返回目录】](../README.md)
+#AAS应用配置
+
+##默认配置
+```yaml
+application:
+  #应用名称，必须配置，集群中的应用名称必须一致
+  name: apex.aas.app
+
+server:
+  port: 8080
+  servlet-path: /           #context,默认/
+  session:
+    timeout: 1800           #会话超时时间,秒
+    cookie:
+      http-only: true
+      name: AASSession
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    multipart:
+      max-file-size: 5mb
+      max-request-size: 5mb
+
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  session:
+    store-type: hash_map
+
+#spring-boot-actuator配置参数
+endpoints:
+  health:
+    sensitive: false    #actuator的health接口是否需要安全保证
+management:
+  security:
+    enabled: false
+  port: ${randomManagementPort.value[2000,2999]}
+  address: 127.0.0.1
+  context-path: /aas_console/actuator
+  health:
+    redis:
+      enabled: false
+
+#Livebos会话共享相关配置 aas.session.sharing为true时才生效
+lb:
+  session:
+    appId: ${application.name}
+redis:
+  host: ${spring.redis.host}
+  port: ${spring.redis.port}
+  password: ${spring.redis.password}
+
+#aas配置参数
+aas:
+  #服务访问拦截器，启用后将统计当天每个服务的平均访问时间
+  service-filter:
+    #是否启用
+    enabled: true
+    #指定匹配的url地址，多个用英文逗号隔开
+    url-patterns: /*
+    #指定排除的url地址（url包含指定的内容），多个用英文逗号隔开
+    url-excludes: .css,.js,.jpg,.png,.gif,.ttf,.ico,api-docs,swagger
+  session:
+    sharing: false #是否启用同livebos平台会话共享
+    foreOffline: false #登录时是否强制之前的会话下线
+  swagger: #swagger插件
+    enabled: false
+    showDemo: false
+  esb: #esb插件
+    enabled: false
+    ip: 127.0.0.1
+    port: 7002
+    user: user
+    pwd: pwd
+    connTimeout: 15
+    readTimeout: 30
+  ticket: #ticket凭证插件
+    enabled: false
+    secret: '1111111111111111'
+  amc: #蜂巢平台插件
+    enabled: true
+  mobile: #咚咚服务插件
+    enabled: false
+    app-file-path: /opt/apex/aas-app/files
+  count: #埋点插件
+    enabled: false
+  dbgate: #dbgate插件
+    enabled: false
+  authentication: #认证插件
+    enabled: false
+    type: simple
+  livebos: #livebos配置
+    api-user: ws_user
+    api-pwd: '000000'
+    ams:
+      enabled: false
+      namespace: lbtest
+    ws:
+      enabled: false
+      address: http://127.0.0.1:8090
+
+```
+
+##最小配置
+```yaml
+aas:
+  amc:
+    enabled: false
+  swagger:
+    enabled: true
+    showDemo: true
+```
+[【返回目录】](../README.md)

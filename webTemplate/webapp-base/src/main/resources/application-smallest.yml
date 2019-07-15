@@ -1,0 +1,13 @@
+
+spring:
+  session:
+    store-type: hash_map
+
+aas:
+  swagger:
+    enabled: true
+    showDemo: true
+  fsdp:
+    enabled: true
+
+#代码上面，只需要保留SwaggerScanner，WebApplication即可，其他的按需增减

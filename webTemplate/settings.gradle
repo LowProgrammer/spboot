@@ -1,0 +1,9 @@
+rootProject.name = 'webTemplate'
+include 'webapp-base'
+include 'ams-protocol'
+include 'ams-server-module-demo'
+include 'ams-service-all'
+include 'helloworld-module'
+findProject(':helloworld-module')?.name = 'helloworld'
+include 'MyService'
+

@@ -1,0 +1,67 @@
+application:
+  #应用名称：当使用到微服务配置中心时，name必须和对应应用匹配
+  name: webTemplate_demo
+
+server:
+#  display-name: webTemplate
+#  port: 8080
+#  servlet-path: /           #context,默认/
+#  session:
+#    timeout: 1800           #会话超时时间,秒
+#    cookie:
+#      http-only: true
+#      name: mySession       #当不使用springSession时，用此区分不同系统的sessionCookieName，启用springSession此参数不生效
+
+spring:
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+#      force: true
+#    multipart:
+#      max-file-size: 10
+#      max-request-size: 10
+
+  datasource:
+    mainDs:
+      name: main-mysql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.3.28:3306/monitor?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: monitor
+      password: ENC(347C69CBC6D3AEDA320F5B5707543D15)
+      initialSize: 5
+      maxActive: 20
+      validationQuery: select 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 100
+      filters: stat,wall
+
+#  session:
+#    store-type: redis
+#    redis:
+#      namespace: wt       #使用SpringSession，若存在多系统共用redis的情况，namespace必须区分开来
+
+  redis:
+    database: 0
+    host: 192.168.3.136
+    port: 6379
+    password: ENC(1083061FF4033F3397FED9C2AF4AED9F)
+    pool:
+      max-active: 100
+      max-idle: 5
+      max-wait: 60000
+
+#pagehelper:
+#  supportMethodsArguments: true   #支持通过Mapper接口参数来传递分页参数
+#  reasonable: true                  #启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页;禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据
+#  offsetAsPageNum: true          #默认false；设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用;和startPage中的pageNum效果一样
+#  pageSizeZero: true              #设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果
+#  autoRuntimeDialect: true
+
+
+#业务参数配置，支持微服务配置中心（配置中心有数据以配置中心为准，否则以本地配置文件为准）
+demo:
+  client: client

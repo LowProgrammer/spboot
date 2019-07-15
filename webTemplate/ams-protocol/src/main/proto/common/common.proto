@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.apex.ams.test.common";
+
+//请求消息
+message CommonRequest {
+    string sessionId = 1;
+    string serviceId = 2;
+    string header = 3;
+    string body =4;
+}
+//响应消息
+message CommonResponse {
+    int32 code = 1;
+    string note = 2;
+    repeated CommonRecord records = 3;
+    int32 count = 4;
+}
+//结果集对象消息
+message CommonRecord{
+    string row = 1;
+    int32 id = 2;
+    string appName = 3;
+    string appCode = 4;
+    string appDesc = 5;
+    int32 appStatus = 6;
+}
+
+
+//流式结果
+message StreamResponse {
+    bool isok = 1;
+    int32 code = 2;
+    string note = 3;
+    int32 count = 4;
+
+    CommonRecord record = 5;
+}
+
+message UploadRequest {
+    string filename = 1;
+    bytes data = 2;
+}
+
+message UploadResponse {
+    int32 code = 1;
+    string note = 2;
+}
+
+message DownloadRequest {
+    string data = 1;
+}
+
+message DownloadResponse {
+    int32 code = 1;
+    string note = 2;
+    string filenname = 3;
+    bytes data = 4;
+}

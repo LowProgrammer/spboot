@@ -1,0 +1,102 @@
+DECLARE num NUMBER;
+BEGIN
+SELECT COUNT(1) INTO num FROM USER_TABLES WHERE TABLE_NAME = UPPER('TB_APP_CRASH') ;
+IF num > 0 THEN
+EXECUTE IMMEDIATE 'DROP TABLE TB_APP_CRASH' ;
+END IF;
+END;
+/
+
+DECLARE
+  C NUMBER;
+BEGIN
+SELECT COUNT(*) INTO C
+FROM ALL_SEQUENCES
+  WHERE SEQUENCE_NAME = 'SEQ_TB_APP_CRASH_ID';
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SEQ_TB_APP_CRASH_ID';
+END IF;
+END
+;
+/
+CREATE TABLE TB_APP_CRASH (
+  id number(38) NOT NULL,
+  client_id varchar2(256),
+  channel varchar2(60),
+  brand varchar2(60),
+  model varchar2(60),
+  os varchar2(60),
+  os_version varchar2(60),
+  resolution varchar2(60),
+  facilitator varchar2(60),
+  app_version varchar2(60),
+  react_version varchar2(60),
+  comp_version varchar2(60),
+  imei varchar2(60),
+  type varchar2(200),
+  "UID" varchar2(200),
+  datetime number(20),
+  user_id varchar2(45),
+  error clob
+);
+
+COMMENT ON COLUMN TB_APP_CRASH.client_id IS '客户端ID'
+;
+COMMENT ON COLUMN TB_APP_CRASH.channel IS '渠道'
+;
+COMMENT ON COLUMN TB_APP_CRASH.brand IS '品牌'
+;
+COMMENT ON COLUMN TB_APP_CRASH.model IS '设备型号'
+;
+COMMENT ON COLUMN TB_APP_CRASH.os IS '操作系统'
+;
+COMMENT ON COLUMN TB_APP_CRASH.os_version IS '操作系统版本'
+;
+COMMENT ON COLUMN TB_APP_CRASH.resolution IS '分辨率'
+;
+COMMENT ON COLUMN TB_APP_CRASH.facilitator IS '运营商'
+;
+COMMENT ON COLUMN TB_APP_CRASH.app_version IS 'App版本'
+;
+COMMENT ON COLUMN TB_APP_CRASH.react_version IS 'React版本号'
+;
+COMMENT ON COLUMN TB_APP_CRASH.comp_version IS '组件版本号'
+;
+COMMENT ON COLUMN TB_APP_CRASH.imei IS '设备ID'
+;
+COMMENT ON COLUMN TB_APP_CRASH.type IS '异常类型，默认为崩溃记录'
+;
+COMMENT ON COLUMN TB_APP_CRASH."UID" IS '访客标识'
+;
+COMMENT ON COLUMN TB_APP_CRASH.datetime IS '时间戳'
+;
+COMMENT ON COLUMN TB_APP_CRASH.user_id IS '用户ID'
+;
+COMMENT ON COLUMN TB_APP_CRASH.error IS '错误内容'
+;
+
+
+ALTER TABLE TB_APP_CRASH
+ ADD CONSTRAINT PK_TB_APP_CRASH
+  PRIMARY KEY (id) USING INDEX
+;
+
+CREATE SEQUENCE SEQ_TB_APP_CRASH_ID
+  INCREMENT BY 1
+  START WITH 1
+  NOMAXVALUE
+  MINVALUE  1
+  NOCYCLE
+  NOCACHE
+  NOORDER
+;
+
+CREATE OR REPLACE TRIGGER TRG_TB_APP_CRASH_ID
+  BEFORE INSERT
+  ON TB_APP_CRASH
+  FOR EACH ROW
+  BEGIN
+    SELECT SEQ_TB_APP_CRASH_ID.NEXTVAL
+    INTO :NEW.ID
+    FROM DUAL;
+  END;

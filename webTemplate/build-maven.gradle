@@ -1,0 +1,28 @@
+/* ============================================================================
+   This file contains the configurations for 
+   Maven settings
+   ============================================================================
+   
+   Included from: "${rootProject.projectDir}/build.gradle"
+   ============================================================================
+ */
+allprojects{
+	repositories {
+		mavenLocal()
+		maven {
+			credentials {
+				username = "chenqunfei"
+				password = "cqf*123456"
+			}
+			url "http://oss.apexsoft.com.cn/repository/maven-public/"
+		}
+		mavenCentral()
+	}
+	configurations.all {
+		//每隔24小时检查远程依赖是否存在更新
+		//resolutionStrategy.cacheChangingModulesFor 24, 'hours'
+		//resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+		resolutionStrategy.cacheChangingModulesFor 1, 'hours'
+	}
+
+}

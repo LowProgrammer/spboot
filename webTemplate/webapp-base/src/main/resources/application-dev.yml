@@ -1,0 +1,122 @@
+#以下所有注释掉的配置都已经设置成默认值，如需改动，去掉注释添加相关配置
+application:
+  #应用名称：当使用到微服务配置中心时，name必须和对应应用匹配
+  name: webapp-demo-1
+#
+#server:
+#  display-name: webTemplate
+#  port: 8080
+#  servlet-path: /           #context,默认/
+#  session:
+#    timeout: 1800           #会话超时时间,秒
+#    cookie:
+#      http-only: true
+#      name: mySession       #当不使用springSession时，用此区分不同系统的sessionCookieName，启用springSession此参数不生效
+
+spring:
+  datasource:
+    aasDs:
+          enabled: true
+          name: main-mysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.3.28:3306/dd?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+          username: dongdong
+          password: dongdong
+          initialSize: 5
+          maxActive: 20
+          validationQuery: select 1
+          testWhileIdle: true
+          testOnBorrow: false
+          testOnReturn: false
+          poolPreparedStatements: true
+          maxOpenPreparedStatements: 100
+          filters: stat,wall
+
+    mysqlDs:
+      name: mysqlDs
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.3.28:3306/monitor?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: monitor
+      password: ENC(347C69CBC6D3AEDA320F5B5707543D15)
+      initialSize: 5
+      maxActive: 20
+      validationQuery: select 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 100
+      filters: stat,wall
+    oracleDs:
+      name: oracleDs
+      #driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:oracle:thin:@192.168.3.201:1521:ygt3
+      username: ppf
+      password: ENC(1083061FF4033F33949C5E3045576913CF11E6A2C43A2516)
+      initialSize: 5
+      maxActive: 20
+      validationQuery: select 1 from dual
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 100
+      filters: stat,wall
+    impala:
+      #Druid,mybatis都不支持impala数据源，因此这里采用dbcp连接池
+      driver-class-name: com.cloudera.impala.jdbc41.Driver
+      url: jdbc:impala://192.168.0.87:21050/apex2017
+      username: root
+      password: ENC(AA00BC1376EAE69E)
+
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+#      force: true
+#    multipart:
+#      max-file-size: 5mb
+#      max-request-size: 5mb
+
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/jsp/
+#      suffix: .jsp
+
+  session:
+    store-type: hash_map
+    redis:
+      namespace: wt       #使用SpringSession，若存在多系统共用redis的情况，namespace必须区分开来
+
+  redis:
+    database: 0
+    host: 192.168.3.136
+    port: 6379
+    password: ENC(1083061FF4033F3397FED9C2AF4AED9F)
+    pool:
+      max-active: 100
+      max-idle: 5
+      max-wait: 60000
+
+#esb:
+#  enabled: true
+#  ip: 192.168.3.25
+#  port: 7002
+#  user: ygt3
+#  pwd: 96e79218965eb72c92a549dd5a330112
+#  connTimeout: 15
+#  readTimeout: 30
+
+#livebosWs:
+#  enabled: false
+#  address: http://192.168.3.202:8080
+#  user: webuser
+#  password: 888888
+
+#业务参数配置，支持微服务配置中心（配置中心有数据以配置中心为准，否则以本地配置文件为准）
+aas:
+  swagger:
+    enabled: true
+    showDemo: false
+  amc:
+    enabled: true

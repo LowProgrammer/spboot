@@ -1,0 +1,24 @@
+ext {
+	//springboot版本
+	springBootVersion = "1.5.16.RELEASE"
+
+	//微服务版本号
+	amsVersion = "1.0.2-SNAPSHOT"
+	//grpc-java版本号
+	grpcVersion =  "1.12.1"
+
+	//webTemplate公共组件版本号
+	aasVersion = "1.1.0-SNAPSHOT"
+
+	library = [
+		ams_common: "com.apex:ams-common:${amsVersion}" ,
+		ams_server: "com.apex:ams-server:${amsVersion}" ,
+		ams_client: "com.apex:ams-client:${amsVersion}" ,
+		ams_livebos_client: "com.apex:ams-livebos-client:${amsVersion}",
+		ams_services: "com.apex:ams-services:${amsVersion}",
+		ams_springboot_starter: "com.apex:ams-spring-boot-starter:${amsVersion}",
+		ams_es_metrics_reporter: "com.apex:ams-es-metrics-reporter:${amsVersion}",
+
+		aas_spring_boot_starter: "com.apexsoft:aas-spring-boot-starter:${aasVersion}"
+	]
+}

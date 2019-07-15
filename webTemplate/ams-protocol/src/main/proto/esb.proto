@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "common/common.proto";
+package esb.demo;
+
+option java_multiple_files = true;
+option java_package = "com.apex.ams.esb";
+
+
+//服务方法
+service EsbService {
+
+    //直接使用repeated消息方式返回。
+    //  优点： 简单清晰，更符合一般开发习惯
+    //  缺点： 大数据集返回需要耗费更多系统资源与响应时间
+    rpc service (CommonRequest) returns (CommonResponse) {}
+
+
+    //使用stream流方式返回
+    //  优点： 大数据集返回效率更好
+    //  缺点： 消息定义语义有点不清晰
+    rpc streamService (CommonRequest) returns (stream StreamResponse) {}
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package first.demo;
+
+option java_multiple_files = true;
+option java_package = "com.apex.ams.helloworld";
+
+
+//服务方法
+service HelloworldService {
+
+    rpc firstService (HelloRequest) returns (HelloResponse) {}
+}
+
+//请求消息
+message HelloRequest {
+    string func = 1;
+    string name = 2;
+    string header = 3;
+    string body =4;
+}
+//响应消息
+message HelloResponse {
+    int32 code = 1;
+    string note = 2;
+    int32 count = 3;
+    repeated Record records = 4;
+}
+
+//结果集对象消息
+message Record{
+    int32 id = 1;
+    string rowCode = 2;
+    string rowName = 3;
+}

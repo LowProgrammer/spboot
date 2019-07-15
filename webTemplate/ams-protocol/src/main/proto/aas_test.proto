@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "common/common.proto";
+package aas.test;
+
+option java_multiple_files = true;
+option java_package = "com.apex.ams.test";
+
+
+//服务方法
+service DemoService {
+    rpc hello (CommonRequest) returns (CommonResponse) {}
+    //文件上传
+    rpc upload(stream UploadRequest) returns (UploadResponse) {}
+    //文件下载
+    rpc download(DownloadRequest) returns (stream DownloadResponse) {}
+}
